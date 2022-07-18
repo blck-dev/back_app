@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: ./test_backend
+      dockerfile: Dockerfile
+      cache_from:
+        - "${WEB_IMAGE}"
+    image: "${WEB_IMAGE}"
+    command: gunicorn test_backend.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/usr/src/test_backend/staticfiles
+      - media_volume:/usr/src/test_backend/mediafiles
+    expose:
+      - 8000
+    env_file: environment/.env
+  nginx:
+    build:
+      context: ./nginx-2
+      cache_from:
+        - "${NGINX_IMAGE}"
+    image: "${NGINX_IMAGE}"
+    volumes:
+      - static_volume:/usr/src/test_backend/staticfiles
+      - media_volume:/usr/src/test_backend/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+volumes:
+  static_volume:
+  media_volume:
