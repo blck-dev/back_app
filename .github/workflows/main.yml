@@ -66,25 +66,17 @@ jobs:
           echo NGINX_IMAGE=${{ env.NGINX_IMAGE }} >> .env
           echo NAMESPACE=${{ secrets.NAMESPACE }} >> .env
           echo PERSONAL_ACCESS_TOKEN=${{ secrets.PERSONAL_ACCESS_TOKEN }} >> .env
-      - name: Add the private SSH key to the ssh-agent
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-add - <<< "${{ secrets.PRIVATE_KEY }}"
+
       - name: Install sshpass
         run: |
           sudo apt-get install -y sshpass
           sudo apt-get update
       - name: Build and deploy images on DigitalOcean
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+
         run: |
           sshpass -p root scp -r ./.env ./docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
-          sshpass -p root ssh root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << 'ENDSSH'
-            cd /back_app
+          sshpass -p root ssh root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} /bin/bash << "ENDSSH"
+            cd back_app
             source .env
             docker login ghcr.io -u $NAMESPACE -p $PERSONAL_ACCESS_TOKEN
             docker pull $WEB_IMAGE
