@@ -1,0 +1,37 @@
+{
+  "ACCOUNT": {
+
+    "kals": {
+      "public_key": "GDZD72GIPGQX7ONMUNGIRNEITN2QUBBWWRN2ZC6DAKUSWXBDOQ72KBCN",
+      "secret_key": "SAG4VYPO4GMP5Z647CXZSD6H7DJ53EJCCOLLV6NPDHTGC2B4BLNYWOAS"
+    },
+    "amouyakar": {
+      "public_key": "GCB6LZEC5TIMVOSAQ2PTUIX63HYK5XHBOJHSYKHMBMGDX3Z6GZPZDW6O",
+      "secret_key": "SBU6X3T4R6W5GXMAVVHS3STHZPIRWKAAGZTSTJIAADLQTGL4FV77IWHB"
+    },
+    "abdoufermat": {
+      "public_key": "GCRRBVWQ2M7AR5H2JATB7Q7R3QVU4IQEY5DEAQB6D4QJ5SYG7DNYCN7R",
+      "secret_key": "SDMV5CLXORIP2IKFE26ECZD5K3O4TLAQR5AKZYFF65GGTJ2466PSR3YE"
+    }
+  },
+  "POSTGRES": {
+    "login-credentials": {
+      "username": "pgadmin4@pgadmin.org",
+      "password": "admin"
+    },
+    "server": {
+      "host": "host.docker.internal",
+      "port": "5050",
+      "username": "postgres",
+      "password": "postgrespw"
+    },
+    "terminal-command": {
+      "command": "docker exec -it postgres-BYtz psql -U postgres"
+    },
+    "compose": {
+      "content": "volumes:\n  data:\n\nservices:\n  postgres:\n    image: postgres:latest\n    environment:\n      - POSTGRES_PASSWORD=postgrespw\n    ports:\n      - 5432:5432\n    volumes:\n      - data:/var/lib/postgresql\n  myapp:\n    image: [YOUR-APP-IMAGE]",
+      "connect": "postgres://postgres:postgrespw@postgres:5432",
+      "run": "docker compose up"
+    }
+  }
+}

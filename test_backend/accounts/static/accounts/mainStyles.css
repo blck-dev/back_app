@@ -1,0 +1,26 @@
+.main-wrappper{
+
+}
+.content-main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+.b-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white !important;
+    color: black !important;
+    font-size: 14px;
+
+}
+.b-card-header{
+    font-size: 18px;
+}
+.b-card-body {
+    padding: 10px 10px;
+}
