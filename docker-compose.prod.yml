@@ -10,14 +10,21 @@ services:
     command: gunicorn test_backend.wsgi:application --bind 0.0.0.0:8000
     env_file:
       - environment/.env
+      - .env
     depends_on:
       - db
-  db:
-    image: postgres:13.0-alpine
+  nginx:
+    build:
+      context: ./nginx-2
+    image: "${NGINX_IMAGE}"
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - environment/.env.local.db
+      - static_volume:/usr/src/test_backend/staticfiles
+      - media_volume:/usr/src/test_backend/mediafiles
+    ports:
+      - 80:80
+    depends_on:
+      - web
 
 volumes:
-  postgres_data:
+  static_volume:
+  media_volume:
