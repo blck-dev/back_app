@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_PATH = Path(__file__).resolve().parent.parent.parent
 
 env = environ.Env()
-env_file = os.path.join(PROJECT_PATH, ".env")
+env_file = os.path.join(PROJECT_PATH, "environment/.env.local")
 
 if os.path.exists(env_file):
     print("we got env working!!")
