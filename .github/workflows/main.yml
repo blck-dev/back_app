@@ -76,8 +76,8 @@ jobs:
         run: |
           ls
           sshpass -p root scp .env root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
-          sshpass -p root scp docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
-          sshpass -p root ssh root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} /bin/bash << "ENDSSH"
+          sshpass -p 12345678 scp docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
+          sshpass -p 12345678 ssh root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} << "ENDSSH"
             cd back_app
             source .env
             docker login ghcr.io -u $NAMESPACE -p $PERSONAL_ACCESS_TOKEN
