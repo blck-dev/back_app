@@ -74,7 +74,9 @@ jobs:
       - name: Build and deploy images on DigitalOcean
 
         run: |
-          sshpass -p root scp -r ./.env ./docker-compose.prod.yml root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
+          echo $pwd
+          ls
+          sshpass -p root scp -r $pwd/{.env,docker-compose.prod.yml} root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }}:/back_app
           sshpass -p root ssh root@${{ secrets.DIGITAL_OCEAN_IP_ADDRESS }} /bin/bash << "ENDSSH"
             cd back_app
             source .env
